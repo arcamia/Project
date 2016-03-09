@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.sentinel.android.checkservice"
+      android:versionCode="1"
+      android:versionName="1.0"
+      android:sharedUserId="android.uid.system">
+    <uses-sdk android:minSdkVersion="11" />
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <application android:name=".CheckServiceApp" android:persistent="true">
+        <uses-library android:name="com.sentinel.android.services.check" android:required="true"/>
+    </application>
+    <permission android:name="com.sentinel.android.checkservice.CHECK_UID"
+	  android:protectionLevel="dangerous"
+	  android:permissionGroup="android.permission-group.SYSTEM_TOOLS"
+      android:label="@string/check_uid_permission_label"
+      android:description="@string/check_uid_permission_description"/>
+
+      <activity
+         android:name="com.sentinel.android.checkserviceNoticeActivity"
+         android:label="CheckServiceApp" >
+      
+      </activity>
+
+</manifest>

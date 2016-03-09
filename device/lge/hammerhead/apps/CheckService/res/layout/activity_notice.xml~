@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   xmlns:tools="http://schemas.android.com/tools" 
+   android:layout_width="match_parent"
+   android:layout_height="match_parent" 
+   android:paddingLeft= "5dp"
+   android:paddingRight="5dp"
+   android:paddingTop="5dp"
+   android:paddingBottom="5dp"
+   tools:context=".NoticeActivity">
+   
+   <TextView
+      android:id="@+id/textView1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Data"
+      android:layout_alignParentTop="true"
+      android:layout_centerHorizontal="true"
+      android:textSize="10dp" />
+      
+   <Button
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Close"
+      android:id="@+id/button"
+      android:layout_alignLeft="@+id/textView1"
+      android:layout_alignStart="@+id/textView1" />
+      
+</RelativeLayout>

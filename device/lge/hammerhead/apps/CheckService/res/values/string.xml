@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="check_uid_permission_label">Check Uid</string>
+  <string name="check_uid_permission_description">Applications with this permission will be able 
+	to check if the calling process belongs to the blacklisted Uids.</string>
+  <string name="Data">Data</string>
+  <string name="Close">Close</string>
+</resources>
