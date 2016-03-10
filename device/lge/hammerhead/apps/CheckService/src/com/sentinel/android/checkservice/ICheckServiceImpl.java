@@ -34,7 +34,7 @@ class ICheckServiceImpl extends ICheckService.Stub {
    * Returns true if the Uid of thecalling process belongs to the monitoring list.
    * Return false if the Uid not on the monitoring list.
    */
-  public boolean compareUid(int callingUid) throws RemoteException {
+  public boolean compareUid(int callingUid) {
 
 	String result;
 	//mock up for monitoring list - need to change
@@ -42,6 +42,7 @@ class ICheckServiceImpl extends ICheckService.Stub {
 
 	// send and intent to activity	
         Intent intent = new Intent(context, NoticeActivity.class);
+	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         String pkg = "com.sentinel.android.checkservice";
         String cls = "com.sentinel.android.checkservice.NoticeActivity";
         intent.setComponent(new ComponentName(pkg, cls));

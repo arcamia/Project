@@ -16,7 +16,7 @@
       android:description="@string/check_uid_permission_description"/>
 
       <activity
-         android:name="com.sentinel.android.checkservice.NoticeActivity"
+         android:name=".NoticeActivity"
          android:label="CheckServiceApp" >
       
       </activity>

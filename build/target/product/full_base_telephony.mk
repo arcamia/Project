@@ -20,7 +20,8 @@
 # entirely appropriate to inherit from for on-device configurations.
 
 PRODUCT_PACKAGES := \
-    VoiceDialer
+    #Remove from build
+    #VoiceDialer
 
 PRODUCT_PROPERTY_OVERRIDES := \
     keyguard.no_require_sim=true \

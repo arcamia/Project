@@ -138,7 +138,8 @@ BOARD_SEPOLICY_UNION += \
        wpa.te \
        file_contexts \
        genfs_contexts \
-       te_macros
+       te_macros \
+       service_contexts
 
 HAVE_ADRENO_SOURCE:= false
 
