@@ -44,7 +44,7 @@ public class CheckManager {
      */
     public boolean compareUid(int callingUid) {
         try {
-            Log.d(TAG, "Comapring Uids");
+            Log.d(TAG, "Comparing Uids");
             return this.service.compareUid(callingUid);
         } catch (RemoteException e) {
             throw new RuntimeException("Failed to compare Uids", e);

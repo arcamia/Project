@@ -15,6 +15,7 @@
       android:text="@string/Data"
       android:layout_alignParentTop="true"
       android:layout_centerHorizontal="true"
+	android:layout_above="@+id/button"
       android:textSize="10dp" />
       
    <Button
@@ -22,6 +23,8 @@
       android:layout_height="wrap_content"
       android:text="@string/Close"
       android:id="@+id/button"
+	android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
       android:layout_alignLeft="@+id/textView1"
       android:layout_alignStart="@+id/textView1" />
       

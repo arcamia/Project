@@ -13,6 +13,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import java.lang.String;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 
 class ICheckServiceImpl extends ICheckService.Stub {
   private static final String TAG = "ICheckServiceImpl";
@@ -38,9 +40,15 @@ class ICheckServiceImpl extends ICheckService.Stub {
 
 	String result;
 	//mock up for monitoring list - need to change
-	int checkUid = Process.getUidForName("com.example.retrievephoneinfoapplication");
+	PackageInfo pInfo = null;
+	try {
+		pInfo = context.getPackageManager().getPackageInfo("com.example.retrievephoneinfoapplication", 0);
+	} catch (NameNotFoundException e) {
+		e.printStackTrace();
+	}
+	int checkUid = pInfo.applicationInfo.uid;
 
-	// send and intent to activity	
+	// send and intent to activity
         Intent intent = new Intent(context, NoticeActivity.class);
 	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         String pkg = "com.sentinel.android.checkservice";

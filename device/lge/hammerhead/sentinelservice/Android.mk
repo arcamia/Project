@@ -18,12 +18,3 @@ LOCAL_DROIDDOC_OPTIONS := com.sentinel.android.services.check
 LOCAL_MODULE_CLASS := JAVA_LIBRARIES
 LOCAL_DROIDDOC_USE_STANDARD_DOCLET := true
 include $(BUILD_DROIDDOC)
-
-#Copy com.sentinel.android.services.check.xml to /system/etc/permissions
-#include $(CLEAR_VARS)
-#LOCAL_MODULE_TAGS := optional
-#LOCAL_MODULE := com.sentinel.android.services.check.xml
-#LOCAL_MODULE_CLASS := ETC
-#LOCAL_MODULE_PATH := $(TARGET_OUT_ETC)/permissions
-#LOCAL_SRC_FILES := $(LOCAL_MODULE)
-#include $(BUILD_PREBUILT)

@@ -24,4 +24,5 @@ PRODUCT_PACKAGES += \
     com.sentinel.android.services.check\
     com.sentinel.android.services.check.xml \
     SentinelCheckService \
+    RetrievePhoneInfoApplication \
     #Launcher3
