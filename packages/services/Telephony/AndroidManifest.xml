@@ -102,6 +102,7 @@
     <uses-permission android:name="android.permission.REGISTER_CALL_PROVIDER" />
     <uses-permission android:name="android.permission.REGISTER_SIM_SUBSCRIPTION" />
     <uses-permission android:name="android.permission.BIND_CARRIER_MESSAGING_SERVICE" />
+
     <uses-permission android:name="com.sentinel.android.checkservice.CHECK_UID" />
 
     <!-- This tells the activity manager to not delay any of our activity
@@ -115,8 +116,10 @@
                  android:icon="@mipmap/ic_launcher_phone"
                  android:allowBackup="false"
                  android:supportsRtl="true">
-		<uses-library android:name="com.sentinel.android.services.check"
+
+	<uses-library android:name="com.sentinel.android.services.check"
 			android:required="true" />
+
             <provider android:name="IccProvider"
                       android:authorities="icc"
                       android:multiprocess="true"

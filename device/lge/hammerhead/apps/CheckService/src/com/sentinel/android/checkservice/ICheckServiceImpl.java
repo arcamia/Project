@@ -49,14 +49,14 @@ class ICheckServiceImpl extends ICheckService.Stub {
 	int checkUid = pInfo.applicationInfo.uid;
 
 	// send and intent to activity
-        Intent intent = new Intent(context, NoticeActivity.class);
-	intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        String pkg = "com.sentinel.android.checkservice";
-        String cls = "com.sentinel.android.checkservice.NoticeActivity";
-        intent.setComponent(new ComponentName(pkg, cls));
-	result = String.format("The calling uid is %d and the checking uid is %d", callingUid, checkUid);
-	intent.putExtra("result", result);
-        context.startActivity(intent);	
+        //Intent intent = new Intent(context, NoticeActivity.class);
+	//intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //String pkg = "com.sentinel.android.checkservice";
+        //String cls = "com.sentinel.android.checkservice.NoticeActivity";
+        //intent.setComponent(new ComponentName(pkg, cls));
+	//result = String.format("The calling uid is %d and the checking uid is %d", callingUid, checkUid);
+	//intent.putExtra("result", result);
+        //context.startActivity(intent);	
 
 	if (callingUid == checkUid)        
 		return true;

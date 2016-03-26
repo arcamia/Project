@@ -93,6 +93,7 @@ PRODUCT_BOOT_JARS := \
     mms-common \
     android.policy \
     apache-xml \
+    com.sentinel.android.services.check \
 
 # The order of PRODUCT_SYSTEM_SERVER_JARS matters.
 PRODUCT_SYSTEM_SERVER_JARS := \
