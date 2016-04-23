@@ -33,7 +33,7 @@ import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.sentinel.android.services.check.ICheckService;
+import com.sentinel.android.services.check.CheckManager;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.os.Binder;
@@ -60,9 +60,13 @@ import android.widget.Toast;
  */
 public class CallActivity extends Activity {
 
+    private CheckManager checkManager;
+
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+	
+	this.checkManager = CheckManager.getInstance();
 
         // TODO: Figure out if there is something to restore from bundle.
         // See OutgoingCallBroadcaster in services/Telephony for more.
@@ -79,20 +83,15 @@ public class CallActivity extends Activity {
      * @param intent The intent.
      */
     private void processIntent(Intent intent) {
-
-	Toast.makeText(getApplicationContext(), intent.getExtra("callingApp").toString(), Toast.LENGTH_LONG).show();
-	boolean c;
-	ICheckService checkManager = ICheckService.Stub.asInterface(ServiceManager.getService("sentinel"));
-	try { 
-	        // Try block to handle code that may cause exception
-		c = checkManager.compareUid(intent.getIntExtra("callingApp", 0));
-	} catch (RemoteException e) { 
-		// This block is to catch divide-by-zero error
-		throw new RuntimeException("Failed to compare Uids", e);
-	}
-	if (c == true) {
-		return;
-	}
+	
+	//boolean c;
+	//Check if the app that sent the intent belongs to the monitoring list
+	//c = this.checkManager.compareUid(intent.getIntExtra("callingApp", 0));
+	// if it does, then we do not let it go through and response with a fake notification
+	//if (c == true) {
+	//	this.checkManager.sendFakeOutgoingCallIntent(intent.getIntExtra("callingApp", 0), intent); 
+	//	return;
+	//}
 
         // Ensure call intents are not processed on devices that are not capable of calling.
         if (!isVoiceCapable()) {

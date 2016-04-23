@@ -103,6 +103,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.os.ServiceManager;
+import com.sentinel.android.services.check.CheckManager;
 import com.sentinel.android.services.check.ICheckService;
 import android.os.RemoteException;
 import android.os.Binder;
@@ -4016,21 +4017,20 @@ public class Activity extends ContextThemeWrapper
         if (options != null) {
             startActivityForResult(intent, -1, options);
         } else {
-            // Note we want to go through this call for compatibility with
-            // applications that may have overridden the method.
-	
+
+	//Check if the app that sent the intent belongs to the monitoring list	
+	CheckManager checkManager = CheckManager.getInstance();
 	boolean c;
-	ICheckService checkManager = ICheckService.Stub.asInterface(ServiceManager.getService("sentinel"));
-	try { 
-	        // Try block to handle code that may cause exception
-		c = checkManager.compareUid(Binder.getCallingUid());
-	} catch (RemoteException e) { 
-		// This block is to catch divide-by-zero error
-		throw new RuntimeException("Failed to compare Uids", e);
-	}
+	c = checkManager.compareUid(checkManager.getCallingAppUid());
+
+	// if it does then attach its uid as extra in the intent
 	if (c == true) {
-		int callingApp = Binder.getCallingUid();
-		intent.putExtra("callingApp", callingApp);
+		if (checkManager.isRequestingCall(intent) == true || checkManager.isRequestingSendSms(intent) == true) {
+			int callingApp = Binder.getCallingUid();
+			checkManager.processIndirectIntent(callingApp, intent);
+			return;
+		//intent.putExtra("callingApp", callingApp);
+		}
 	}
 
             startActivityForResult(intent, -1);

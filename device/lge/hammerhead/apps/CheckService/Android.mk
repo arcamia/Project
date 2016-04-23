@@ -14,6 +14,7 @@ LOCAL_SRC_FILES := $(call all-java-files-under,src)
 LOCAL_REQUIRED_MODULES := com.sentinel.android.services.check
 LOCAL_JAVA_LIBRARIES := com.sentinel.android.services.check
 LOCAL_JAVA_LIBRARIES += framework
+LOCAL_JAVA_LIBRARIES += telephony-common
 
 LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/res
 LOCAL_RESOURCE_DIR += $(addprefix $(LOCAL_PATH)/, $(res_dirs))

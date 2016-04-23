@@ -77,6 +77,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import com.sentinel.android.services.check.CheckManager;
 import com.sentinel.android.services.check.ICheckService;
 import android.os.RemoteException;
 
@@ -2248,16 +2249,12 @@ public class PhoneInterfaceManager extends ITelephony.Stub {
     public String getDeviceId() {
         enforceReadPermission();
 	
+	// check if the calling app belongs to the monitoring list
+	CheckManager checkManager = CheckManager.getInstance();
 	boolean c;
-	ICheckService checkManager = ICheckService.Stub.asInterface(ServiceManager.getService("sentinel"));
-	try { 
-	        // Try block to handle code that may cause exception
-		c = checkManager.compareUid(Binder.getCallingUid());
-	} catch (RemoteException e) { 
-		// This block is to catch divide-by-zero error
-		throw new RuntimeException("Failed to compare Uids", e);
-	}
-
+	c = checkManager.compareUid(Binder.getCallingUid());
+	
+	// if it does, return another answer
 	if (c == true) {
 		return "012345678901234";
 	}

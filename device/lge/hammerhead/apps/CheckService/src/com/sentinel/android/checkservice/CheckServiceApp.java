@@ -7,8 +7,7 @@ import com.sentinel.android.services.check.ICheckService;
 
 public class CheckServiceApp extends Application {
   private static final String TAG = "CheckServiceApp";
-  //private static final String REMOTE_SERVICE_NAME = ICheckService.class.getName();
-  private static final String REMOTE_SERVICE_NAME = "sentinel";
+  private static final String REMOTE_SERVICE_NAME = ICheckService.class.getName();
   private ICheckServiceImpl serviceImpl;
 
   public void onCreate() {
