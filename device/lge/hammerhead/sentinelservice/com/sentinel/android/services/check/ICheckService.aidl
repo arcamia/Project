@@ -2,6 +2,7 @@ package com.sentinel.android.services.check;
 
 import android.content.Intent;
 import android.app.PendingIntent;
+import android.location.Location;
 
 /**
  * System-private API for talking to the LogService.
@@ -94,5 +95,16 @@ interface ICheckService {
 	* @param the Intent comes from that application
      	*/
 	void processIndirectIntent(int Uid, in Intent deliveryIntent);
+
+    	/**
+     	* Return an fake Location object to the requesting process.
+	*
+	* Instead of letting the real Location Manage retrieve the stored location,
+	* we craft a fake one and let the requested process to have it.
+	* 
+      	* @param The string that indicates the location provider name
+	* @param the Intent comes from that application
+     	*/
+	Location answerWithFakeLocation(String provider);
 
 }

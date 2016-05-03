@@ -32,6 +32,11 @@ import android.telephony.TelephonyManager;
 import android.os.Binder;
 import android.app.PendingIntent;
 
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.SystemClock;
+import android.os.Bundle;
+
 class ICheckServiceImpl extends ICheckService.Stub {
   private static final String TAG = "ICheckServiceImpl";
   private final Context context;
@@ -441,6 +446,52 @@ class ICheckServiceImpl extends ICheckService.Stub {
 		
 	}
 
+  }
+
+  /**
+   * Return an fake Location object to the requesting process.
+   * 
+   * Instead of letting the real Location Manage retrieve the stored location,
+   * we craft a fake one and let the requested process to have it.
+   *
+   * @param The string that indicates the location provider name
+   * @param the Intent comes from that application
+   */
+  public Location answerWithFakeLocation(String provider) {
+
+	// Setup a location object that contains fake altitude, longtitude
+	// and latitude. The time attribute is the time this object got generated.
+	// The remaining attributes are also made up so it appears to be similar
+	// to the legitimate one
+	Location location = new Location(provider);
+
+	//Set the estimated accuracy of this location
+	location.setAccuracy(10.0f);
+
+	//Set the altitude, in meters above the WGS 84 reference ellipsoid.
+	location.setAltitude(14.0);
+
+	//Set the time of this fix, in elapsed real-time since system boot. 
+	location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
+
+	//Sets the extra information associated with this fix to the given Bundle.
+	Bundle mBundle = new Bundle();
+	mBundle.putInt("satellites", 11);
+	location.setExtras(mBundle);
+
+	//Set the latitude, in degrees. 
+	location.setLatitude(28.937176);
+
+	//Set the longitude, in degrees. 
+	location.setLongitude(-96.204529);
+
+	//Sets the name of the provider
+	location.setProvider(provider);
+
+	//Set the UTC time in milliseconds
+	location.setTime(System.currentTimeMillis());
+
+	return location;
   }
 
 }

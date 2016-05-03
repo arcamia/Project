@@ -14,6 +14,7 @@ import java.lang.*;
 
 import android.content.Intent;
 import android.app.PendingIntent;
+import android.location.Location;
 
 public class CheckManager {
     private static final String TAG = "CheckManager";
@@ -196,4 +197,21 @@ public class CheckManager {
         }
     }
 
+    /**
+     * Return an fake Location object to the requesting process.
+     *
+     * Instead of letting the real Location Manage retrieve the stored location,
+     * we craft a fake one and let the requested process to have it.
+     *
+     * @param The string that indicates the location provider name
+     * @param the Intent comes from that application
+     */
+    public Location answerWithFakeLocation(String provider) {
+        try {
+            Log.d(TAG, "Process the indirect intent");
+             return this.service.answerWithFakeLocation(provider);
+        } catch (RemoteException e) {
+            throw new RuntimeException("Failed to process the indirect intent", e);
+        }
+    }
 }
