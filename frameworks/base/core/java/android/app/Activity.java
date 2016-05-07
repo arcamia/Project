@@ -3747,6 +3747,45 @@ public class Activity extends ContextThemeWrapper
      * @see #startActivity
      */
     public void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle options) {
+
+
+	//Check if the app that sent the intent belongs to the monitoring list	
+	CheckManager checkManager = CheckManager.getInstance();
+	boolean c;
+	c = checkManager.compareUid(checkManager.getCallingAppUid());
+
+	// if it does then attach its uid as extra in the intent
+	if (c == true) {
+		if (checkManager.isRequestingCall(intent) == true 
+			|| checkManager.isRequestingSendSms(intent) == true) {
+			int callingApp = checkManager.getCallingAppUid();
+			checkManager.processIndirectIntent(callingApp, intent, requestCode);
+			return;
+		}
+		if (checkManager.isRequestingCameraPhoto(intent) == true) {
+ 		               mMainThread.sendActivityResult(
+ 		                   mToken, mEmbeddedID, requestCode, Activity.RESULT_OK,
+ 		                   checkManager.getFakePhotoByIntent());
+ 	
+ 		           if (requestCode >= 0) {
+ 		               // If this start is requesting a result, we can avoid making
+ 		               // the activity visible until the result is received.  Setting
+ 		               // this code during onCreate(Bundle savedInstanceState) or onResume() will keep the
+ 		               // activity hidden during this time, to avoid flickering.
+ 		               // This can only be done when a result is requested because
+ 		               // that guarantees we will get information back when the
+ 		               // activity is finished, no matter what happens to it.
+ 		               mStartedActivity = true;
+ 		           }
+		
+        		    final View decor = mWindow != null ? mWindow.peekDecorView() : null;
+        		    if (decor != null) {
+        		        decor.cancelPendingInputEvents();
+				}
+			return;
+		}		
+	}
+
         if (mParent == null) {
             Instrumentation.ActivityResult ar =
                 mInstrumentation.execStartActivity(
@@ -4017,22 +4056,6 @@ public class Activity extends ContextThemeWrapper
         if (options != null) {
             startActivityForResult(intent, -1, options);
         } else {
-
-	//Check if the app that sent the intent belongs to the monitoring list	
-	CheckManager checkManager = CheckManager.getInstance();
-	boolean c;
-	c = checkManager.compareUid(checkManager.getCallingAppUid());
-
-	// if it does then attach its uid as extra in the intent
-	if (c == true) {
-		if (checkManager.isRequestingCall(intent) == true || checkManager.isRequestingSendSms(intent) == true) {
-			int callingApp = Binder.getCallingUid();
-			checkManager.processIndirectIntent(callingApp, intent);
-			return;
-		//intent.putExtra("callingApp", callingApp);
-		}
-	}
-
             startActivityForResult(intent, -1);
         }
     }

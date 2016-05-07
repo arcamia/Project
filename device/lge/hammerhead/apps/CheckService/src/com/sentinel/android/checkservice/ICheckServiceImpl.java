@@ -37,6 +37,17 @@ import android.location.LocationManager;
 import android.os.SystemClock;
 import android.os.Bundle;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.app.Activity;
+import java.lang.Byte;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 class ICheckServiceImpl extends ICheckService.Stub {
   private static final String TAG = "ICheckServiceImpl";
   private final Context context;
@@ -415,7 +426,7 @@ class ICheckServiceImpl extends ICheckService.Stub {
    * @param the UID of the application that we want to send fake notification
    * @param the Intent comes from that application
    */
-  public void processIndirectIntent(int Uid, Intent deliveryIntent) {
+  public void processIndirectIntent(int Uid, Intent deliveryIntent, int requestCode) {
 
 	//TODO: save text message to fake database, save fake calllog to fake database
 
@@ -443,7 +454,17 @@ class ICheckServiceImpl extends ICheckService.Stub {
 		} else {
 			//TODO: add entry to fake sms log
 		}
-		
+
+		// if the intent is for taking photo from camera
+		if (isRequestingCameraPhoto(deliveryIntent) == true) {
+			// get the fake photo ready
+			Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.smile1);
+			//Intent returnIntent = new Intent();
+			//returnIntent.setPackage(pkgs[i]);
+         		//returnIntent.putExtra("data",bm);	
+			//Activity con = new Activity();
+         		//con.setResult(Activity.RESULT_OK,returnIntent); 
+		}
 	}
 
   }
@@ -492,6 +513,84 @@ class ICheckServiceImpl extends ICheckService.Stub {
 	location.setTime(System.currentTimeMillis());
 
 	return location;
+  }
+
+  /**
+   * Check if the intent is for asking to take a photo from
+   * 
+   * @param the intent that we want to examine
+   */
+  public boolean isRequestingCameraPhoto(Intent callIntent) {
+
+	boolean result = false;
+
+	// get the action of the intent
+	String intentAction = callIntent.getAction();
+
+	// if we get nothing then this is not the intent of interest
+	if (intentAction == null)
+		return result;
+
+	// if the type has a string like ACTION_IMAGE_CAPTURE or ACTION_IMAGE_CAPTURE_SECURE
+	// then it is requesting photo from camera
+	if (intentAction.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE) || 
+			intentAction.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE_SECURE))
+		result = true;
+
+	return result;
+  }
+
+  /**
+   * Create an intent that contain a fake photo for the requesting app
+   * 
+   * @param none
+   */
+  public Intent getFakePhotoByIntent() {
+
+	//get the fake photo ready
+	Bitmap bm = BitmapFactory.decodeResource(context.getResources(), R.drawable.smile1);
+	Intent returnIntent = new Intent();
+        returnIntent.putExtra("data",bm);	
+
+	return returnIntent;
+  }
+
+  /**
+   * Make a copy of the captured photo into our own service
+   * directory for later inspection
+   * 
+   * @param the uid of the blacklisted app that used the camera
+   * @param the captured image photo
+   */
+  public void saveCapturedPhotoFromCamera(int uid, byte[] bytes) {
+
+	//Locate the storage place
+	String path = context.getExternalFilesDir(null) + "/" + String.valueOf(uid) + "/" + "photo/";
+	final File file = new File (path);
+	if (!file.exists()){
+		file.mkdirs();
+	}
+
+	//Make the name for the photo
+	Date today = Calendar.getInstance().getTime();
+	SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd-hhmmss");
+	String name = formatter.format(today);
+	
+	// Save the photo in ".jpg" format
+	//File saved = new File (path + name + ".jpg"); 
+	//FileOutputStream output = null;
+	//try {
+	//	output = new FileOutputStream(file);
+	//	output.write(bytes);
+	//} catch (IOException e) {
+	//	e.printStackTrace();	
+ 	//} //finally {
+		//try{
+			//output.flush();
+		//	output.close();
+		//} catch (IOException e) {
+		//}
+	//}
   }
 
 }

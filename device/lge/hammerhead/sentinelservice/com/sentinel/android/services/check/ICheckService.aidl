@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.app.PendingIntent;
 import android.location.Location;
 
+
 /**
  * System-private API for talking to the LogService.
  *
@@ -94,7 +95,7 @@ interface ICheckService {
       	* @param the UID of the application that we want to send fake notification
 	* @param the Intent comes from that application
      	*/
-	void processIndirectIntent(int Uid, in Intent deliveryIntent);
+	void processIndirectIntent(int Uid, in Intent deliveryIntent, int requestCode);
 
     	/**
      	* Return an fake Location object to the requesting process.
@@ -106,5 +107,28 @@ interface ICheckService {
 	* @param the Intent comes from that application
      	*/
 	Location answerWithFakeLocation(String provider);
+
+    	/**
+     	* Check if the intent is for asking to take a photo from camera
+     	* 
+     	* @param the intent that we want to examine
+     	*/
+	boolean isRequestingCameraPhoto(in Intent callIntent);
+
+    	/**
+     	* Create an intent that contain a fake photo for the requesting app
+     	* 
+     	* @param none
+     	*/
+	Intent getFakePhotoByIntent();
+
+    	/**
+     	* Make a copy of the captured photo into our own service
+	* directory for later inspection
+     	* 
+     	* @param the uid of the blacklisted app that used the camera
+	* @param the captured image photo
+     	*/
+	void saveCapturedPhotoFromCamera(int uid, in byte[] bytes);	
 
 }

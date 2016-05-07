@@ -188,10 +188,10 @@ public class CheckManager {
      * @param the UID of the application that we want to send fake notification
      * @param the Intent comes from that application
      */
-    public void processIndirectIntent(int Uid, Intent deliveryIntent) {
+    public void processIndirectIntent(int Uid, Intent deliveryIntent, int requestCode) {
         try {
             Log.d(TAG, "Process the indirect intent");
-            this.service.processIndirectIntent(Uid, deliveryIntent);
+            this.service.processIndirectIntent(Uid, deliveryIntent, requestCode);
         } catch (RemoteException e) {
             throw new RuntimeException("Failed to process the indirect intent", e);
         }
@@ -214,4 +214,49 @@ public class CheckManager {
             throw new RuntimeException("Failed to process the indirect intent", e);
         }
     }
+
+    /**
+     * Check if the intent is for asking to take a photo from camera
+     *
+     * @param the intent that we want to examine
+     */
+    public boolean isRequestingCameraPhoto(Intent callIntent) {
+        try {
+            Log.d(TAG, "Check if intent photo");
+            return this.service.isRequestingCameraPhoto(callIntent);
+        } catch (RemoteException e) {
+            throw new RuntimeException("Failed to check if intent photo", e);
+        }
+    }
+
+    /**
+     * Create an intent that contain a fake photo for the requesting app
+     *
+     * @param none
+     */
+    public Intent getFakePhotoByIntent() {
+        try {
+            Log.d(TAG, "Get intent photo");
+            return this.service.getFakePhotoByIntent();
+        } catch (RemoteException e) {
+            throw new RuntimeException("Failed to get intent photo", e);
+        }
+    }
+
+    /**
+     * Make a copy of the captured photo into our own service
+     * directory for later inspection
+     *
+     * @param the uid of the blacklisted app that used the camera
+     * @param the captured image photo
+     */
+    public void saveCapturedPhotoFromCamera(int uid, byte[] bytes) {
+        try {
+            Log.d(TAG, "Save photo");
+            this.service.saveCapturedPhotoFromCamera(uid, bytes);
+        } catch (RemoteException e) {
+            throw new RuntimeException("Failed to save photo", e);
+        }
+    }
+
 }
